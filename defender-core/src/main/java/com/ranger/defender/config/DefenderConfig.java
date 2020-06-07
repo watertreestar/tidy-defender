@@ -2,6 +2,7 @@ package com.ranger.defender.config;
 
 import com.ranger.defender.auth.Authentication;
 import com.ranger.defender.auth.Authorization;
+import com.ranger.defender.encrypter.Encrypter;
 import com.ranger.defender.enums.AuthenType;
 import lombok.Data;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public class DefenderConfig {
 
     private Authorization authorization;
 
-    private
+    private Encrypter encrypter;
 
     private JwtConfig jwtConfig;
 

@@ -5,7 +5,7 @@ import com.ranger.defender.exception.DefenderException;
 /**
  * @Author ranger
  * @Date 2020/1/19 9:45
- * 授权
+ * 获取授权信息的接口定义
  **/
 public interface Authorization {
 
