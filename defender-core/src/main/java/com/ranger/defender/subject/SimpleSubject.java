@@ -1,12 +1,12 @@
 package com.ranger.defender.subject;
 
-import com.ranger.defender.auth.Authentication;
-import com.ranger.defender.auth.AuthenticationInfo;
-import com.ranger.defender.auth.AuthenticationToken;
-import com.ranger.defender.auth.Authorization;
+import com.ranger.defender.auth.*;
 import com.ranger.defender.encrypter.Encrypter;
 import com.ranger.defender.exception.PasswordNotCorrectException;
 import com.ranger.defender.exception.UnAuthenticateException;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * @Author ranger
@@ -46,7 +46,32 @@ public abstract class SimpleSubject implements Subject {
 
     }
 
+    @Override
+    public boolean hasPermissions(List<String> roles, List<String> permissions) {
+        AuthorizationInfo authorizationInfo = this.authorize();
+        if(authorizationInfo == null){
+            return false;
+        }
 
+        // 先通过角色判断
+        if(!CollectionUtils.isEmpty(roles) && !CollectionUtils.isEmpty(authorizationInfo.getRoles())){
+            for(String s : roles){
+                return authorizationInfo.getRoles().contains(s);
+            }
+        }
 
+        if(!CollectionUtils.isEmpty(permissions) && !CollectionUtils.isEmpty(authorizationInfo.getPermissions())){
+            for(String s : permissions){
+                return authorizationInfo.getPermissions().contains(s);
+            }
+        }
+
+        return false;
+    }
+
+    protected AuthorizationInfo authorize(){
+        AuthenticationInfo authenticationInfo = this.getAuthenticationInfo();
+        return authorization.doAuthorization(authenticationInfo);
+    }
 
 }

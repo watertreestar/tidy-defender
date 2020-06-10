@@ -3,6 +3,8 @@ package com.ranger.defender.subject;
 import com.ranger.defender.auth.AuthenticationInfo;
 import com.ranger.defender.auth.AuthenticationToken;
 
+import java.util.List;
+
 /**
  * @Author ranger
  * @Date 2020/1/19 9:43
@@ -33,8 +35,8 @@ public interface Subject {
     boolean renew();
 
     /**
-     * TODO complete
+     *
      * @return
      */
-    boolean hasPermissions();
+    boolean hasPermissions(List<String> roles, List<String> permissions);
 }

@@ -91,8 +91,5 @@ public class SessionSubject extends SimpleSubject {
         return false;
     }
 
-    @Override
-    public boolean hasPermissions() {
-        return false;
-    }
+
 }

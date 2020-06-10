@@ -10,13 +10,17 @@ import java.util.Set;
  * A default implementation of authorization
  **/
 public class SimpleAuthorizationInfo implements AuthorizationInfo {
+
+    private Set<String> permissions;
+    private Set<String> roles;
+
     @Override
     public Set<String> getRoles() {
-        return null;
+        return roles;
     }
 
     @Override
     public Set<String> getPermissions() {
-        return null;
+        return permissions;
     }
 }

@@ -32,8 +32,4 @@ public class JwtSession extends SimpleSubject {
         return false;
     }
 
-    @Override
-    public boolean hasPermissions() {
-        return false;
-    }
 }
