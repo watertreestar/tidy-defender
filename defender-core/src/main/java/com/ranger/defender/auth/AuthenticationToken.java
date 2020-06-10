@@ -17,7 +17,7 @@ public interface AuthenticationToken {
         return null;
     }
 
-    default boolean isRemeberMe(){
+    default boolean isRememberMe(){
         return false;
     }
 

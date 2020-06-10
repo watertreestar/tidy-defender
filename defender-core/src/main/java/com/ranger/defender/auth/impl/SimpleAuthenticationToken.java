@@ -9,7 +9,7 @@ import com.ranger.defender.auth.AuthenticationToken;
 public class SimpleAuthenticationToken implements AuthenticationToken {
 
     private String username;
-    private String passsword;
+    private String password;
     private boolean rememberMe;
 
 
@@ -17,14 +17,14 @@ public class SimpleAuthenticationToken implements AuthenticationToken {
         this.username = username;
     }
 
-    public SimpleAuthenticationToken(String username, String passsword) {
+    public SimpleAuthenticationToken(String username, String password) {
         this.username = username;
-        this.passsword = passsword;
+        this.password = password;
     }
 
-    public SimpleAuthenticationToken(String username, String passsword, boolean rememberMe) {
+    public SimpleAuthenticationToken(String username, String password, boolean rememberMe) {
         this.username = username;
-        this.passsword = passsword;
+        this.password = password;
         this.rememberMe = rememberMe;
     }
 
@@ -35,11 +35,11 @@ public class SimpleAuthenticationToken implements AuthenticationToken {
 
     @Override
     public String password(){
-        return this.passsword;
+        return this.password;
     }
 
     @Override
-    public boolean isRemeberMe(){
+    public boolean isRememberMe(){
         return this.rememberMe;
     }
 

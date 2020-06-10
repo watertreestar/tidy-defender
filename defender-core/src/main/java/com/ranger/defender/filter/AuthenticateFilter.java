@@ -1,7 +1,13 @@
 package com.ranger.defender.filter;
 
+import com.ranger.defender.DefenderManager;
+import com.ranger.defender.exception.AuthenticateException;
+import com.ranger.defender.exception.UnAuthenticateException;
+import com.ranger.defender.subject.Subject;
 import com.ranger.defender.util.WebContext;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.PathMatcher;
@@ -12,10 +18,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.Executors;
 
 /**
  * @Author ranger
@@ -25,11 +30,17 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class AuthenticateFilter extends OncePerRequestFilter {
 
+    private static final Logger logger  = LoggerFactory.getLogger(AuthenticateFilter.class);
+
     private List<String> excludesPath;
     private List<String> includesPath;
 
-
     private PathMatcher pathMatcher = new AntPathMatcher();
+
+    public AuthenticateFilter(){
+        this.excludesPath = new ArrayList<>();
+        this.includesPath = new ArrayList<>();
+    }
 
 
     public AuthenticateFilter addPathPatterns(String... urls) {
@@ -50,8 +61,15 @@ public class AuthenticateFilter extends OncePerRequestFilter {
         return this;
     }
 
+    /**
+     * 是否需要进行权限过滤， false - 不进行权限过滤，  true - 需要进行权限过滤
+     * @param pathToMatche
+     * @param pathMatcher
+     * @return
+     */
     private boolean matches(String pathToMatche, PathMatcher pathMatcher) {
         PathMatcher pathMatcherToUse = pathMatcher == null ? this.pathMatcher : pathMatcher;
+        // 首先判断是否在 excludePath 外
         if (!ObjectUtils.isEmpty(this.excludesPath)) {
             for (String path : this.excludesPath) {
                 if (pathMatcherToUse.match(path, pathToMatche)) {
@@ -86,7 +104,7 @@ public class AuthenticateFilter extends OncePerRequestFilter {
             return;
         }
         // execute filter
-        boolean isAuth = false;
+        boolean isAuth = false;       // 是否认证成功
         try{
             isAuth = doAuthentication(httpServletRequest,httpServletResponse);
         }catch (Exception e){
@@ -114,26 +132,31 @@ public class AuthenticateFilter extends OncePerRequestFilter {
     private boolean doAuthentication(HttpServletRequest request,HttpServletResponse response){
         // get current subject, determine whether login
 
+        // 在这里判断是否登录，如果没有登录，直接deny
+        Subject subject = DefenderManager.getCurrentSubject();
+        if(subject.isLogin()){
+            return true;
+        }
         return false;
     }
 
     /**
-     *
+     * 认证失败处理  返回错误码和错误信息
      * @param request
      * @param response
      */
     protected void unAuthenticated(HttpServletRequest request,HttpServletResponse response){
-
+        throw UnAuthenticateException.build("authenticate failed");
     }
 
     /**
-     * handler when a exception throw
+     * 认证过程发生异常处理
      * @param request
      * @param response
      * @param e
      */
     protected void authenticateException(HttpServletRequest request, HttpServletResponse response, Exception e){
-
+        throw AuthenticateException.build(e.getMessage());
     }
 
 

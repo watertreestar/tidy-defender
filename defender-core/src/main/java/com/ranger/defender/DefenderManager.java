@@ -5,6 +5,7 @@ import com.ranger.defender.enums.AuthenType;
 import com.ranger.defender.subject.JwtSession;
 import com.ranger.defender.subject.SessionSubject;
 import com.ranger.defender.subject.Subject;
+import com.ranger.defender.util.SpringContextUtil;
 
 /**
  * @Author ranger
@@ -21,7 +22,9 @@ public class DefenderManager {
         this.defenderConfig = defenderConfig;
     }
 
-    public Subject getCurrentSubject(){
+    public static Subject getCurrentSubject(){
+        DefenderManager defenderManager = SpringContextUtil.getBean(DefenderManager.class);
+        DefenderConfig defenderConfig = defenderManager.getDefenderConfig();
         if(defenderConfig.getAuthenType().equals(AuthenType.SESSION)){
             return new SessionSubject();
         }else if(defenderConfig.getAuthenType().equals(AuthenType.JWT)){
