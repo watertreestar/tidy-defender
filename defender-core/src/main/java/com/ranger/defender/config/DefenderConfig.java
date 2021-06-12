@@ -1,11 +1,8 @@
 package com.ranger.defender.config;
 
-import com.ranger.defender.auth.Authentication;
-import com.ranger.defender.auth.Authorization;
 import com.ranger.defender.encrypter.Encrypter;
 import com.ranger.defender.enums.AuthenType;
 import lombok.Data;
-import lombok.Setter;
 
 /**
  * @Author ranger
@@ -13,19 +10,33 @@ import lombok.Setter;
  **/
 @Data
 public class DefenderConfig {
+    /**
+     * 认证类型，支持JWT和Session
+     */
     private AuthenType authenType = AuthenType.SESSION;
 
-    private Authentication authentication;
-
-    private Authorization authorization;
-
+    /**
+     * 加密器
+     */
     private Encrypter encrypter;
 
-    private JwtConfig jwtConfig;
+    /**
+     * JWT认证的配置，secret,expire and so on
+     */
+    private JWTConfig jwtConfig;
 
+    /**
+     * Session认证的配置
+     */
     private SessionConfig sessionConfig;
 
+    /**
+     * Session认证方式登录成功后跳转的url地址
+     */
     private String loginSuccessUrl;
 
+    /**
+     * 未认证用户访问的跳转url
+     */
     private String unLoginUrl;
 }

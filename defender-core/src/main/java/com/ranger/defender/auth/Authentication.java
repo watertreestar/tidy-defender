@@ -24,6 +24,4 @@ public interface Authentication {
      * @throws DefenderException
      */
     AuthenticationInfo doAuthentication(AuthenticationToken token) throws DefenderException;
-
-
 }

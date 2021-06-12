@@ -1,12 +1,19 @@
 package com.ranger.defender.subject;
 
+import com.ranger.defender.auth.Authentication;
 import com.ranger.defender.auth.AuthenticationInfo;
+import com.ranger.defender.auth.Authorization;
 
 /**
  * @Author ranger
  * @Date 2020/1/20 14:05
  **/
-public class JwtSession extends SimpleSubject {
+public class JWTSession extends SimpleSubject {
+
+    public JWTSession(Authentication authentication, Authorization authorization) {
+        super(authentication,authorization);
+    }
+
     @Override
     public AuthenticationInfo getAuthenticationInfo() {
         return null;

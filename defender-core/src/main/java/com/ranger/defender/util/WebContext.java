@@ -36,8 +36,4 @@ public class WebContext {
         return null != request ? request.getSession(create) : null;
     }
 
-
-
-
-
 }

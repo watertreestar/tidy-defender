@@ -1,7 +1,9 @@
 package com.ranger.defender.subject;
 
+import com.ranger.defender.auth.Authentication;
 import com.ranger.defender.auth.AuthenticationInfo;
 import com.ranger.defender.auth.AuthenticationToken;
+import com.ranger.defender.auth.Authorization;
 import com.ranger.defender.exception.UnAuthenticateException;
 import com.ranger.defender.util.WebContext;
 
@@ -15,6 +17,11 @@ import static com.ranger.defender.constant.DefenderConstant.SESSION_KEY;
  * @Date 2020/1/20 14:05
  **/
 public class SessionSubject extends SimpleSubject {
+
+    public SessionSubject(Authentication authentication, Authorization authorization) {
+        super(authentication,authorization);
+    }
+
 
     public HttpSession getSession(){
         return WebContext.getCurrentSession(true);

@@ -14,7 +14,6 @@ import java.util.List;
  **/
 public abstract class SimpleSubject implements Subject {
 
-
     private Authentication authentication;
 
     private Authorization authorization;

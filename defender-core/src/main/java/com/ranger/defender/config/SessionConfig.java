@@ -11,7 +11,7 @@ import java.time.Duration;
 @Data
 public class SessionConfig {
     private String   cookieName = "defender";
-    private String   secret     = "defender";
+    private String   secret     = "defender-343of2";
     private Duration renewExpires;
     private String   domain;
     private String   path       = "/";
