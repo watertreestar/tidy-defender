@@ -63,16 +63,16 @@ public class AuthenticateFilter extends OncePerRequestFilter {
 
     /**
      * 是否需要进行权限过滤， false - 不进行权限过滤，  true - 需要进行权限过滤
-     * @param pathToMatche
+     * @param pathToMatch
      * @param pathMatcher
      * @return
      */
-    private boolean matches(String pathToMatche, PathMatcher pathMatcher) {
+    private boolean matches(String pathToMatch, PathMatcher pathMatcher) {
         PathMatcher pathMatcherToUse = pathMatcher == null ? this.pathMatcher : pathMatcher;
         // 首先判断是否在 excludePath 外
         if (!ObjectUtils.isEmpty(this.excludesPath)) {
             for (String path : this.excludesPath) {
-                if (pathMatcherToUse.match(path, pathToMatche)) {
+                if (pathMatcherToUse.match(path, pathToMatch)) {
                     return false;
                 }
             }
@@ -83,7 +83,7 @@ public class AuthenticateFilter extends OncePerRequestFilter {
         }
         // 需要过滤的路径
         for (String pattern : this.includesPath) {
-            if (pathMatcherToUse.match(pattern, pathToMatche)) {
+            if (pathMatcherToUse.match(pattern, pathToMatch)) {
                 return true;
             }
         }
