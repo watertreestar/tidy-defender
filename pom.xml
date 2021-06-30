@@ -25,6 +25,8 @@
         <lombok.version>1.18.6</lombok.version>
         <defender-core.version>1.0-SNAPSHOT</defender-core.version>
         <defender-spring-boot-starter.version>1.0-SNAPSHOT</defender-spring-boot-starter.version>
+
+        <maven-plugin.source>3.2.1</maven-plugin.source>
     </properties>
 
     <dependencyManagement>
