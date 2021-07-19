@@ -52,6 +52,10 @@ public class DefenderManager {
         this.defenderConfig = defenderConfig;
     }
 
+    /**
+     * 获取当前认证主体
+     * @return
+     */
     public static Subject getCurrentSubject() {
         DefenderManager self = me();
         if (self.authentication == null) {
