@@ -7,7 +7,7 @@ import com.ranger.defender.auth.AuthenticationToken;
  * @Author ranger
  * @Date 2020/1/20 16:16
  **/
-public interface Encrypter {
+public interface Encryptor {
 
     /**
      * verify the password equals to authentication information

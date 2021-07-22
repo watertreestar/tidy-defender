@@ -8,9 +8,9 @@ import com.ranger.defender.auth.Authorization;
  * @Author ranger
  * @Date 2020/1/20 14:05
  **/
-public class JWTSession extends SimpleSubject {
+public class JwtAbstractSubject extends SimpleAbstractSubject {
 
-    public JWTSession(Authentication authentication, Authorization authorization) {
+    public JwtAbstractSubject(Authentication authentication, Authorization authorization) {
         super(authentication,authorization);
     }
 

@@ -16,9 +16,9 @@ import static com.ranger.defender.constant.DefenderConstant.SESSION_KEY;
  * @Author ranger
  * @Date 2020/1/20 14:05
  **/
-public class SessionSubject extends SimpleSubject {
+public class SessionAbstractSubject extends SimpleAbstractSubject {
 
-    public SessionSubject(Authentication authentication, Authorization authorization) {
+    public SessionAbstractSubject(Authentication authentication, Authorization authorization) {
         super(authentication,authorization);
     }
 

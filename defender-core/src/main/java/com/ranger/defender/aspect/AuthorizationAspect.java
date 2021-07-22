@@ -1,5 +1,6 @@
 package com.ranger.defender.aspect;
 
+import com.ranger.defender.Defender;
 import com.ranger.defender.DefenderManager;
 import com.ranger.defender.annotation.HasPermission;
 import com.ranger.defender.annotation.HasRole;
@@ -31,7 +32,7 @@ public class AuthorizationAspect {
 
     @Before("authorization()")
     public void beforePermission(JoinPoint joinPoint){
-        Subject subject = DefenderManager.getCurrentSubject();
+        Subject subject = Defender.getCurrentSubject();
 
         Method method = ((MethodSignature) joinPoint).getMethod();
         HasRole role = method.getAnnotation(HasRole.class);

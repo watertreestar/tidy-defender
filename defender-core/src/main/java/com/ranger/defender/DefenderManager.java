@@ -4,10 +4,9 @@ import com.ranger.defender.auth.Authentication;
 import com.ranger.defender.auth.Authorization;
 import com.ranger.defender.config.DefenderConfig;
 import com.ranger.defender.enums.AuthenType;
-import com.ranger.defender.subject.JWTSession;
-import com.ranger.defender.subject.SessionSubject;
+import com.ranger.defender.subject.JwtAbstractSubject;
+import com.ranger.defender.subject.SessionAbstractSubject;
 import com.ranger.defender.subject.Subject;
-import com.ranger.defender.util.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,45 +33,19 @@ public class DefenderManager {
      */
     private Authorization authorization;
 
+    /**
+     * 默认使用session的认证方式
+     */
+    private AuthenType authenType = AuthenType.SESSION;
+
     public DefenderConfig getDefenderConfig() {
         return defenderConfig;
     }
 
     private static DefenderManager instance = new DefenderManager();
 
-    public static DefenderManager getInstance() {
-        return instance;
-    }
-
-    private static DefenderManager me() {
-        return getInstance();
-    }
-
     public void setDefenderConfig(DefenderConfig defenderConfig) {
         this.defenderConfig = defenderConfig;
-    }
-
-    /**
-     * 获取当前认证主体
-     * @return
-     */
-    public static Subject getCurrentSubject() {
-        DefenderManager self = me();
-        if (self.authentication == null) {
-            throw new IllegalStateException("Can not find a Authentication");
-        }
-        if (self.authorization == null) {
-            throw new IllegalStateException("Can not find a Authorization");
-        }
-        DefenderManager defenderManager = SpringContextUtil.getBean(DefenderManager.class);
-        DefenderConfig defenderConfig = defenderManager.getDefenderConfig();
-        if (defenderConfig.getAuthenType().equals(AuthenType.SESSION)) {
-            return new SessionSubject(self.authentication, self.authorization);
-        } else if (defenderConfig.getAuthenType().equals(AuthenType.JWT)) {
-            return new JWTSession(self.authentication, self.authorization);
-        }
-        // Create a SessionSubject default
-        return new SessionSubject(self.authentication, self.authorization);
     }
 
     public Authentication getAuthentication() {
@@ -89,5 +62,15 @@ public class DefenderManager {
 
     public void setAuthorization(Authorization authorization) {
         this.authorization = authorization;
+    }
+
+    public Subject getSubject() {
+        AuthenType type = defenderConfig.getAuthenType();
+        if(type.equals(AuthenType.SESSION)) {
+            return new SessionAbstractSubject(this.authentication,this.authorization);
+        } else if(type.equals(AuthenType.JWT)) {
+            return new JwtAbstractSubject(this.authentication,this.authorization);
+        }
+        throw new IllegalArgumentException("Unknown auth type [" + type +"]");
     }
 }

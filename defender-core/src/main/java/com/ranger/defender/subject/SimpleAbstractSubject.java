@@ -1,7 +1,7 @@
 package com.ranger.defender.subject;
 
 import com.ranger.defender.auth.*;
-import com.ranger.defender.encrypter.Encrypter;
+import com.ranger.defender.encrypter.Encryptor;
 import com.ranger.defender.exception.PasswordNotCorrectException;
 import com.ranger.defender.exception.UnAuthenticateException;
 import org.springframework.util.CollectionUtils;
@@ -12,18 +12,16 @@ import java.util.List;
  * @Author ranger
  * @Date 2020/1/20 11:02
  **/
-public abstract class SimpleSubject implements Subject {
+public abstract class SimpleAbstractSubject implements Subject {
 
     private Authentication authentication;
 
     private Authorization authorization;
 
-    public SimpleSubject(Authentication authentication, Authorization authorization) {
+    public SimpleAbstractSubject(Authentication authentication, Authorization authorization) {
         this.authentication = authentication;
         this.authorization = authorization;
     }
-
-    public SimpleSubject(){}
 
     /**
      * 登录操作
@@ -37,8 +35,8 @@ public abstract class SimpleSubject implements Subject {
         if(null == info){
             throw UnAuthenticateException.build();
         }
-        Encrypter encrypter = authentication.encrypter();
-        if(null == encrypter || !encrypter.verify(token,info)){
+        Encryptor encryptor = authentication.encrypter();
+        if(null == encryptor || !encryptor.verify(token,info)){
             throw PasswordNotCorrectException.build();
         }
         return info;

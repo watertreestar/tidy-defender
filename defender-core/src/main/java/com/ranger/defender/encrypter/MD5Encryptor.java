@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
  * @Author ranger
  * @Date 2020/1/20 16:33
  **/
-public class MD5Encrypter implements Encrypter{
+public class MD5Encryptor implements Encryptor {
 
     @Override
     public boolean verify(AuthenticationToken token, AuthenticationInfo authenticationInfo) {

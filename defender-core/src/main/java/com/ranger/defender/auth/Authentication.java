@@ -1,6 +1,6 @@
 package com.ranger.defender.auth;
 
-import com.ranger.defender.encrypter.Encrypter;
+import com.ranger.defender.encrypter.Encryptor;
 import com.ranger.defender.exception.DefenderException;
 
 /**
@@ -14,7 +14,7 @@ public interface Authentication {
      * current encoder for password
      * @return
      */
-    Encrypter encrypter();
+    Encryptor encrypter();
 
 
     /**

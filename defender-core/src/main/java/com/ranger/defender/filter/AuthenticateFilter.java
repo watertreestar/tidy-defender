@@ -1,5 +1,6 @@
 package com.ranger.defender.filter;
 
+import com.ranger.defender.Defender;
 import com.ranger.defender.DefenderManager;
 import com.ranger.defender.exception.AuthenticateException;
 import com.ranger.defender.exception.UnAuthenticateException;
@@ -133,7 +134,7 @@ public class AuthenticateFilter extends OncePerRequestFilter {
         // get current subject, determine whether login
 
         // 在这里判断是否登录，如果没有登录，直接deny
-        Subject subject = DefenderManager.getCurrentSubject();
+        Subject subject = Defender.getCurrentSubject();
         if(subject.isLogin()){
             return true;
         }

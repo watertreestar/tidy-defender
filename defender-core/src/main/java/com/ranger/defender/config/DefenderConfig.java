@@ -1,6 +1,6 @@
 package com.ranger.defender.config;
 
-import com.ranger.defender.encrypter.Encrypter;
+import com.ranger.defender.encrypter.Encryptor;
 import com.ranger.defender.enums.AuthenType;
 import lombok.Data;
 
@@ -18,7 +18,7 @@ public class DefenderConfig {
     /**
      * 加密器
      */
-    private Encrypter encrypter;
+    private Encryptor encryptor;
 
     /**
      * JWT认证的配置，secret,expire and so on
