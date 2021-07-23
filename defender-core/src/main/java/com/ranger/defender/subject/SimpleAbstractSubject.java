@@ -1,9 +1,14 @@
 package com.ranger.defender.subject;
 
+import com.ranger.defender.Defender;
+import com.ranger.defender.DefenderManager;
 import com.ranger.defender.auth.*;
+import com.ranger.defender.config.JWTConfig;
+import com.ranger.defender.config.SessionConfig;
 import com.ranger.defender.encrypter.Encryptor;
 import com.ranger.defender.exception.PasswordNotCorrectException;
 import com.ranger.defender.exception.UnAuthenticateException;
+import com.ranger.defender.token.generator.JwtTokenGenerator;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -18,9 +23,57 @@ public abstract class SimpleAbstractSubject implements Subject {
 
     private Authorization authorization;
 
-    public SimpleAbstractSubject(Authentication authentication, Authorization authorization) {
+    private DefenderManager defenderManager;
+
+    public SimpleAbstractSubject(Authentication authentication, Authorization authorization, DefenderManager defenderManager) {
         this.authentication = authentication;
         this.authorization = authorization;
+        this.defenderManager = defenderManager;
+    }
+
+    /**
+     * 获取DefenderManager
+     * @return
+     */
+    public DefenderManager getDefenderManager() {
+        return defenderManager;
+    }
+
+    public void setDefenderManager(DefenderManager defenderManager) {
+        this.defenderManager = defenderManager;
+    }
+
+    /**
+     * SessionConfig
+     * @return
+     */
+    protected SessionConfig sessionConfig() {
+        if(defenderManager == null) {
+            throw new IllegalStateException("Not config a DefenderManger");
+        }
+        return defenderManager.getDefenderConfig().getSessionConfig();
+    }
+
+    /**
+     * JwtConfig
+     * @return
+     */
+    protected JWTConfig jwtConfig() {
+        if(defenderManager == null) {
+            throw new IllegalStateException("Not config a DefenderManger");
+        }
+        return defenderManager.getDefenderConfig().getJwtConfig();
+    }
+
+    /**
+     * 获取JwtToken generator
+     * @return
+     */
+    protected JwtTokenGenerator jwtTokenGenerator() {
+        if(defenderManager == null) {
+            throw new IllegalStateException("Not config a DefenderManger");
+        }
+        return defenderManager.getJwtTokenGenerator();
     }
 
     /**
@@ -43,6 +96,12 @@ public abstract class SimpleAbstractSubject implements Subject {
 
     }
 
+    /**
+     * 通过需要的角色和权限来判断是否授权
+     * @param roles
+     * @param permissions
+     * @return
+     */
     @Override
     public boolean hasPermissions(List<String> roles, List<String> permissions) {
         AuthorizationInfo authorizationInfo = this.authorize();
@@ -66,6 +125,18 @@ public abstract class SimpleAbstractSubject implements Subject {
         return false;
     }
 
+    /**
+     * 刷新授权信息
+     */
+    @Override
+    public void refreshAuthorization() {
+        this.authorize();
+    }
+
+    /**
+     * 返回权限信息
+     * @return
+     */
     protected AuthorizationInfo authorize(){
         AuthenticationInfo authenticationInfo = this.getAuthenticationInfo();
         return authorization.doAuthorization(authenticationInfo);

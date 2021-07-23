@@ -1,12 +1,13 @@
-package com.ranger.defender.token;
+package com.ranger.defender.token.generator;
 
 import java.util.Map;
 
 /**
  * @Author ranger
  * @Date 2020/6/7 22:14
+ * To create or get token info from jwt
  **/
-public interface JwtToken {
+public interface JwtTokenGenerator {
     /**
      * Create a token that sets the username to subject
      *

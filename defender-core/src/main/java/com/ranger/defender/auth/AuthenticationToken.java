@@ -17,6 +17,10 @@ public interface AuthenticationToken {
         return null;
     }
 
+    /**
+     * 是否需要记住我
+     * @return
+     */
     default boolean isRememberMe(){
         return false;
     }

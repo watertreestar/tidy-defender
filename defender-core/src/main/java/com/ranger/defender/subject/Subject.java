@@ -28,14 +28,14 @@ public interface Subject {
 
     void logOut();
 
-    void refreshAuthentication();
+    void refreshAuthorization();
 
     boolean isLogin();
 
     boolean renew();
 
     /**
-     *
+     * 是否有权限
      * @return
      */
     boolean hasPermissions(List<String> roles, List<String> permissions);

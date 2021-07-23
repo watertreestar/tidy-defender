@@ -4,9 +4,10 @@ import com.ranger.defender.auth.Authentication;
 import com.ranger.defender.auth.Authorization;
 import com.ranger.defender.config.DefenderConfig;
 import com.ranger.defender.enums.AuthenType;
-import com.ranger.defender.subject.JwtAbstractSubject;
-import com.ranger.defender.subject.SessionAbstractSubject;
+import com.ranger.defender.subject.JwtSubject;
+import com.ranger.defender.subject.SessionSubject;
 import com.ranger.defender.subject.Subject;
+import com.ranger.defender.token.generator.JwtTokenGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +39,8 @@ public class DefenderManager {
      */
     private AuthenType authenType = AuthenType.SESSION;
 
+    private JwtTokenGenerator jwtTokenGenerator;
+
     public DefenderConfig getDefenderConfig() {
         return defenderConfig;
     }
@@ -64,12 +67,20 @@ public class DefenderManager {
         this.authorization = authorization;
     }
 
+    public void setJwtTokenGenerator(JwtTokenGenerator generator) {
+        this.jwtTokenGenerator = generator;
+    }
+
+    public JwtTokenGenerator getJwtTokenGenerator() {
+        return jwtTokenGenerator;
+    }
+
     public Subject getSubject() {
         AuthenType type = defenderConfig.getAuthenType();
         if(type.equals(AuthenType.SESSION)) {
-            return new SessionAbstractSubject(this.authentication,this.authorization);
+            return new SessionSubject(this.authentication,this.authorization,this);
         } else if(type.equals(AuthenType.JWT)) {
-            return new JwtAbstractSubject(this.authentication,this.authorization);
+            return new JwtSubject(this.authentication,this.authorization,this);
         }
         throw new IllegalArgumentException("Unknown auth type [" + type +"]");
     }

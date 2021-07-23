@@ -45,7 +45,5 @@ public class AuthorizationAspect {
         if(!hasPermission){
             throw UnAuthorizedException.build("permission denied");
         }
-
-
     }
 }
